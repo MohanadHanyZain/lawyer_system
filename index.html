@@ -2,41 +2,238 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#1e293b">
     <title>نظام إدارة مكتب المحاماة الذكي - النسخة الاحترافية</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
-        * { font-family: 'Tajawal', sans-serif; }
-        .nav-link { @apply flex items-center w-full px-4 py-3 text-right transition-all duration-200 rounded-lg hover:bg-slate-800 text-slate-300; display: block; }
-        .nav-link.active { @apply bg-blue-600 text-white shadow-lg; }
-        ::-webkit-scrollbar { width: 6px; }
+        * { 
+            font-family: 'Tajawal', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* تحسين التمرير */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        
+        /* تأثيرات الـ Navigation */
+        .nav-link { 
+            @apply flex items-center w-full px-4 py-3 text-right transition-all duration-200 rounded-lg hover:bg-slate-800 text-slate-300;
+            display: block;
+        }
+        .nav-link.active { @apply bg-blue-600 text-white shadow-lg; }
+        
+        /* تحريك المحتوى */
         #main-content { animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* اقتصاص النص */
         .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        
+        /* ========== تحسينات للهواتف المحمولة ========== */
+        
+        /* زر القائمة الجانبية للهواتف */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 1000;
+            background: #1e293b;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        /* تحسين الجداول للهواتف */
+        @media (max-width: 768px) {
+            /* إخفاء القائمة الجانبية وجعلها منبثقة */
+            .sidebar {
+                position: fixed;
+                right: -280px;
+                top: 0;
+                width: 280px;
+                height: 100vh;
+                transition: right 0.3s ease;
+                z-index: 999;
+                overflow-y: auto;
+            }
+            
+            .sidebar.open {
+                right: 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.5);
+                z-index: 998;
+            }
+            
+            .overlay.active {
+                display: block;
+            }
+            
+            /* تصغير الهيدر */
+            header {
+                padding-right: 60px !important;
+            }
+            
+            /* تحويل البطاقات إلى عمود واحد */
+            .grid-cols-1.md\:grid-cols-2.lg\:grid-cols-4 {
+                grid-template-columns: 1fr !important;
+            }
+            
+            /* تحسين الجداول */
+            .overflow-x-auto {
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            table {
+                min-width: 600px;
+            }
+            
+            /* تحسين المودالات */
+            .modal-content {
+                width: 95% !important;
+                margin: 10px !important;
+                max-height: 90vh !important;
+            }
+            
+            /* تصغير الخطوط */
+            body {
+                font-size: 14px;
+            }
+            
+            h2 {
+                font-size: 1.25rem !important;
+            }
+            
+            /* تحسين أزرار الإجراءات */
+            .action-buttons {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            
+            .action-buttons button {
+                flex: 1;
+                min-width: auto;
+                font-size: 12px;
+                padding: 8px 12px;
+            }
+            
+            /* تحسين حقول الإدخال */
+            input, select, textarea {
+                font-size: 16px !important; /* منع تكبير المتصفح التلقائي */
+            }
+            
+            /* تحسين بطاقات الموكلين */
+            .clients-grid {
+                grid-template-columns: 1fr !important;
+            }
+            
+            /* تحسين أزرار التصفية */
+            .filter-buttons {
+                flex-direction: column;
+            }
+            
+            /* تحسين عرض القضايا */
+            .cases-stats {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 10px;
+            }
+            
+            /* تحسين padding */
+            .p-8 {
+                padding: 1rem !important;
+            }
+            
+            .p-6 {
+                padding: 1rem !important;
+            }
+        }
+        
+        /* تحسينات للشاشات المتوسطة */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .grid-cols-1.md\:grid-cols-2.lg\:grid-cols-4 {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+            
+            .clients-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+        }
+        
+        /* تحسين اللمس على الهواتف */
+        @media (max-width: 768px) {
+            button, .nav-link, [onclick] {
+                cursor: pointer;
+                min-height: 44px;
+            }
+            
+            /* تحسين ظهور المودال */
+            .fixed {
+                -webkit-backdrop-filter: blur(4px);
+                backdrop-filter: blur(4px);
+            }
+        }
+        
+        /* منع التحديد العشوائي */
+        .no-select {
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        
+        /* تحسين السكرول الناعم */
+        html {
+            scroll-behavior: smooth;
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
 
+    <!-- زر القائمة للهواتف -->
+    <button class="menu-toggle" onclick="toggleSidebar()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+    </button>
+    
+    <!-- الخلفية المظللة للقائمة الجانبية -->
+    <div class="overlay" onclick="toggleSidebar()"></div>
+
     <div class="flex h-screen overflow-hidden">
-        <aside class="w-72 bg-slate-900 text-white flex flex-col shadow-xl">
+        <aside class="sidebar w-72 bg-slate-900 text-white flex flex-col shadow-xl" style="direction: rtl;">
             <div class="p-6 text-center border-b border-slate-700">
                 <h1 class="text-2xl font-bold tracking-wide">المحامي المحترف</h1>
                 <p class="text-xs text-slate-400 mt-1">نظام إدارة المكاتب القانونية</p>
             </div>
             
             <nav class="flex-1 mt-6 px-4 space-y-2">
-                <button onclick="router('dashboard')" class="nav-link">📊 لوحة التحكم</button>
-                <button onclick="router('clients')" class="nav-link">👥 الموكلين</button>
-                <button onclick="router('cases')" class="nav-link">⚖️ القضايا</button>
-                <button onclick="router('calendar')" class="nav-link">📅 الأجندة</button>
-                <button onclick="router('finance')" class="nav-link">💰 المالية</button>
-                <button onclick="router('templates')" class="nav-link">📝 النماذج</button>
-                <button onclick="router('tasks')" class="nav-link">✅ المهام</button>
-                <button onclick="router('settings')" class="nav-link">⚙️ الإعدادات</button>
+                <button onclick="router('dashboard'); closeSidebarOnMobile();" class="nav-link">📊 لوحة التحكم</button>
+                <button onclick="router('clients'); closeSidebarOnMobile();" class="nav-link">👥 الموكلين</button>
+                <button onclick="router('cases'); closeSidebarOnMobile();" class="nav-link">⚖️ القضايا</button>
+                <button onclick="router('calendar'); closeSidebarOnMobile();" class="nav-link">📅 الأجندة</button>
+                <button onclick="router('finance'); closeSidebarOnMobile();" class="nav-link">💰 المالية</button>
+                <button onclick="router('templates'); closeSidebarOnMobile();" class="nav-link">📝 النماذج</button>
+                <button onclick="router('tasks'); closeSidebarOnMobile();" class="nav-link">✅ المهام</button>
+                <button onclick="router('settings'); closeSidebarOnMobile();" class="nav-link">⚙️ الإعدادات</button>
             </nav>
 
             <div class="p-4 border-t border-slate-700">
@@ -45,18 +242,18 @@
         </aside>
 
         <main class="flex-1 flex flex-col overflow-hidden">
-            <header class="h-16 bg-white shadow-sm flex items-center justify-between px-8">
-                <h2 id="page-title" class="text-xl font-bold text-slate-700">لوحة التحكم</h2>
-                <span id="current-date" class="text-sm text-gray-500"></span>
+            <header class="h-16 bg-white shadow-sm flex items-center justify-between px-4 md:px-8">
+                <h2 id="page-title" class="text-lg md:text-xl font-bold text-slate-700">لوحة التحكم</h2>
+                <span id="current-date" class="text-xs md:text-sm text-gray-500"></span>
             </header>
 
-            <section id="main-content" class="flex-1 overflow-y-auto p-8"></section>
+            <section id="main-content" class="flex-1 overflow-y-auto p-4 md:p-8"></section>
         </main>
     </div>
 
     <!-- مودال الجلسات -->
     <div id="m-session" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-        <div class="bg-white p-6 rounded-xl w-full max-w-md">
+        <div class="bg-white p-6 rounded-xl w-full max-w-md modal-content">
             <h3 class="font-bold text-xl mb-4">📅 إضافة جلسة</h3>
             <input type="date" id="s-date" class="w-full border p-3 rounded mb-3">
             <input type="time" id="s-time" class="w-full border p-3 rounded mb-3">
@@ -71,7 +268,7 @@
 
     <!-- مودال المستندات -->
     <div id="m-document" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-        <div class="bg-white p-6 rounded-xl w-full max-w-md">
+        <div class="bg-white p-6 rounded-xl w-full max-w-md modal-content">
             <h3 class="font-bold text-xl mb-4">📄 رفع مستند</h3>
             <input type="text" id="doc-name" placeholder="اسم المستند" class="w-full border p-3 rounded mb-3">
             <select id="doc-type" class="w-full border p-3 rounded mb-3">
@@ -83,6 +280,32 @@
         </div>
     </div>
 
+    <script>
+        // دوال تحكم القائمة الجانبية للهواتف
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.overlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+        }
+        
+        function closeSidebarOnMobile() {
+            if (window.innerWidth <= 768) {
+                const sidebar = document.querySelector('.sidebar');
+                const overlay = document.querySelector('.overlay');
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+            }
+        }
+        
+        // إغلاق القائمة عند الضغط على ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeSidebarOnMobile();
+            }
+        });
+    </script>
+    
     <script src="db.js"></script>
     <script src="app.js"></script>
 </body>
