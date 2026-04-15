@@ -5,6 +5,23 @@ const title = document.getElementById('page-title');
 let currentEditId = null;
 let currentCaseId = null;
 
+
+// ========== تحسين عرض عنوان الصفحة ==========
+function updatePageTitle(title) {
+    const titleElement = document.getElementById('page-title');
+    if (titleElement) {
+        titleElement.innerText = title;
+        // على الهواتف، اختصر العنوان إذا كان طويلاً
+        if (window.innerWidth <= 480 && title.length > 15) {
+            titleElement.innerText = title.substring(0, 12) + '...';
+        }
+    }
+}
+
+// عدّل دالة router لتستخدم updatePageTitle
+// ابحث عن const title = document.getElementById('page-title');
+// واستبدل كل title.innerText = بـ updatePageTitle()
+
 // دوال مساعدة آمنة للتشفير
 function safeBtoa(str) {
     if (!str) return '';
