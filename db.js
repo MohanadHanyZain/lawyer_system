@@ -508,3 +508,39 @@ setInterval(async () => {
         });
     }
 }, 3600000);
+
+// ========== التحميل التلقائي للبيانات التجريبية ==========
+(async function autoLoadDemoOnFirstUse() {
+    // ننتظر قليلاً للتأكد من أن Dexie جاهز
+    await new Promise(resolve => setTimeout(resolve, 200));
+    
+    try {
+        const clientCount = await db.clients.count();
+        const caseCount = await db.cases.count();
+        
+        console.log(`📊 فحص قاعدة البيانات: ${clientCount} موكل, ${caseCount} قضية`);
+        
+        // إذا كانت فارغة تماماً
+        if (clientCount === 0 && caseCount === 0) {
+            console.log("🔄 قاعدة البيانات فارغة - جاري إضافة البيانات التجريبية...");
+            
+            // إضافة البيانات
+            const result = await DB.addDemoData();
+            
+            if (result) {
+                console.log("✅ تمت إضافة البيانات التجريبية بنجاح!");
+                
+                // إظهار إشعار للمستخدم
+                setTimeout(() => {
+                    if (typeof alert === 'function') {
+                        alert("🎉 مرحباً بك في نظام إدارة المحاماة!\n\nتم إضافة بيانات تجريبية لتجربة النظام. يمكنك تعديلها أو حذفها في أي وقت.");
+                    }
+                }, 1000);
+            }
+        } else {
+            console.log("✅ البيانات موجودة مسبقاً، لا حاجة للإضافة التلقائية");
+        }
+    } catch (error) {
+        console.error("❌ خطأ في التحميل التلقائي:", error);
+    }
+})();
