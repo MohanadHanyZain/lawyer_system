@@ -6,6 +6,21 @@ let currentEditId = null;
 let currentCaseId = null;
 
 
+
+// فرض عرض سطح المكتب على جميع الأجهزة
+(function forceDesktopMode() {
+    const viewport = document.querySelector('meta[name="viewport"]');
+    if (viewport) {
+        viewport.setAttribute('content', 'width=1200, user-scalable=yes');
+    } else {
+        const meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=1200, user-scalable=yes';
+        document.head.appendChild(meta);
+    }
+})();
+
+
 // ========== تحسين عرض عنوان الصفحة ==========
 function updatePageTitle(title) {
     const titleElement = document.getElementById('page-title');
