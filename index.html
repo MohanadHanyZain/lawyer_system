@@ -14,46 +14,58 @@
             -webkit-tap-highlight-color: transparent;
         }
         
-        /* تحسين التمرير */
+        .nav-link { 
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 12px 16px;
+            text-align: right;
+            transition: all 0.2s;
+            border-radius: 12px;
+            color: #cbd5e1;
+        }
+        .nav-link:hover { background-color: #1e293b; }
+        .nav-link.active { background-color: #2563eb; color: white; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        
         ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         
-        /* تأثيرات الـ Navigation */
-        .nav-link { 
-            @apply flex items-center w-full px-4 py-3 text-right transition-all duration-200 rounded-lg hover:bg-slate-800 text-slate-300;
-            display: block;
-        }
-        .nav-link.active { @apply bg-blue-600 text-white shadow-lg; }
-        
-        /* تحريك المحتوى */
         #main-content { animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* اقتصاص النص */
         .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
         
-        /* ========== تحسينات للهواتف المحمولة ========== */
-        
-        /* زر القائمة الجانبية للهواتف */
+        /* القائمة الجانبية للهواتف */
         .menu-toggle {
             display: none;
             position: fixed;
-            top: 15px;
-            right: 15px;
+            top: 12px;
+            right: 12px;
             z-index: 1000;
-            background: #1e293b;
-            color: white;
-            border: none;
+            background: white;
+            border: 1px solid #e2e8f0;
             border-radius: 12px;
-            padding: 12px;
+            padding: 10px;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         
-        /* تحسين الجداول للهواتف */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 998;
+        }
+        
+        .overlay.active { display: block; }
+        
+        /* تحسينات الهواتف */
         @media (max-width: 768px) {
-            /* إخفاء القائمة الجانبية وجعلها منبثقة */
             .sidebar {
                 position: fixed;
                 right: -280px;
@@ -64,158 +76,55 @@
                 z-index: 999;
                 overflow-y: auto;
             }
+            .sidebar.open { right: 0; }
+            .menu-toggle { display: block; }
             
-            .sidebar.open {
-                right: 0;
-            }
+            header { padding-right: 60px !important; padding-left: 12px !important; }
+            #page-title { font-size: 16px !important; max-width: 160px !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
             
-            .menu-toggle {
-                display: block;
-            }
+            .p-8 { padding: 12px !important; }
+            .p-6 { padding: 16px !important; }
             
-            .overlay {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(0,0,0,0.5);
-                z-index: 998;
-            }
+            .grid-cols-1.md\:grid-cols-2.lg\:grid-cols-4 { grid-template-columns: 1fr !important; gap: 12px !important; }
             
-            .overlay.active {
-                display: block;
-            }
+            .overflow-x-auto { -webkit-overflow-scrolling: touch; }
+            table { min-width: 600px; }
             
-            /* تصغير الهيدر */
-            header {
-                padding-right: 60px !important;
-            }
+            input, select, textarea { font-size: 16px !important; }
             
-            /* تحويل البطاقات إلى عمود واحد */
-            .grid-cols-1.md\:grid-cols-2.lg\:grid-cols-4 {
-                grid-template-columns: 1fr !important;
-            }
+            .grid-cols-2 { grid-template-columns: 1fr !important; }
             
-            /* تحسين الجداول */
-            .overflow-x-auto {
-                -webkit-overflow-scrolling: touch;
-            }
+            .modal-content { width: 95% !important; margin: 10px !important; max-height: 85vh !important; }
             
-            table {
-                min-width: 600px;
-            }
-            
-            /* تحسين المودالات */
-            .modal-content {
-                width: 95% !important;
-                margin: 10px !important;
-                max-height: 90vh !important;
-            }
-            
-            /* تصغير الخطوط */
-            body {
-                font-size: 14px;
-            }
-            
-            h2 {
-                font-size: 1.25rem !important;
-            }
-            
-            /* تحسين أزرار الإجراءات */
-            .action-buttons {
-                flex-wrap: wrap;
-                gap: 8px;
-            }
-            
-            .action-buttons button {
-                flex: 1;
-                min-width: auto;
-                font-size: 12px;
-                padding: 8px 12px;
-            }
-            
-            /* تحسين حقول الإدخال */
-            input, select, textarea {
-                font-size: 16px !important; /* منع تكبير المتصفح التلقائي */
-            }
-            
-            /* تحسين بطاقات الموكلين */
-            .clients-grid {
-                grid-template-columns: 1fr !important;
-            }
-            
-            /* تحسين أزرار التصفية */
-            .filter-buttons {
-                flex-direction: column;
-            }
-            
-            /* تحسين عرض القضايا */
-            .cases-stats {
-                grid-template-columns: repeat(2, 1fr) !important;
-                gap: 10px;
-            }
-            
-            /* تحسين padding */
-            .p-8 {
-                padding: 1rem !important;
-            }
-            
-            .p-6 {
-                padding: 1rem !important;
-            }
+            .case-actions { flex-wrap: wrap; }
+            .case-actions button { flex: 1; font-size: 12px; padding: 8px; }
         }
         
-        /* تحسينات للشاشات المتوسطة */
+        @media (max-width: 480px) {
+            #page-title { max-width: 120px !important; font-size: 14px !important; }
+            header { padding-right: 55px !important; }
+        }
+        
         @media (min-width: 769px) and (max-width: 1024px) {
-            .grid-cols-1.md\:grid-cols-2.lg\:grid-cols-4 {
-                grid-template-columns: repeat(2, 1fr) !important;
-            }
-            
-            .clients-grid {
-                grid-template-columns: repeat(2, 1fr) !important;
-            }
+            .grid-cols-1.md\:grid-cols-2.lg\:grid-cols-4 { grid-template-columns: repeat(2, 1fr) !important; }
         }
         
-        /* تحسين اللمس على الهواتف */
-        @media (max-width: 768px) {
-            button, .nav-link, [onclick] {
-                cursor: pointer;
-                min-height: 44px;
-            }
-            
-            /* تحسين ظهور المودال */
-            .fixed {
-                -webkit-backdrop-filter: blur(4px);
-                backdrop-filter: blur(4px);
-            }
-        }
+        button, .nav-link, [onclick] { cursor: pointer; }
+        @media (max-width: 768px) { button, .nav-link, [onclick] { min-height: 44px; } }
         
-        /* منع التحديد العشوائي */
-        .no-select {
-            user-select: none;
-            -webkit-user-select: none;
-        }
-        
-        /* تحسين السكرول الناعم */
-        html {
-            scroll-behavior: smooth;
-        }
+        .fixed { backdrop-filter: blur(4px); }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
 
-    <!-- زر القائمة للهواتف -->
     <button class="menu-toggle" onclick="toggleSidebar()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="3" y1="12" x2="21" y2="12"></line>
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <line x1="3" y1="18" x2="21" y2="18"></line>
         </svg>
     </button>
     
-    <!-- الخلفية المظللة للقائمة الجانبية -->
     <div class="overlay" onclick="toggleSidebar()"></div>
 
     <div class="flex h-screen overflow-hidden">
@@ -226,14 +135,14 @@
             </div>
             
             <nav class="flex-1 mt-6 px-4 space-y-2">
-                <button onclick="router('dashboard'); closeSidebarOnMobile();" class="nav-link">📊 لوحة التحكم</button>
-                <button onclick="router('clients'); closeSidebarOnMobile();" class="nav-link">👥 الموكلين</button>
-                <button onclick="router('cases'); closeSidebarOnMobile();" class="nav-link">⚖️ القضايا</button>
-                <button onclick="router('calendar'); closeSidebarOnMobile();" class="nav-link">📅 الأجندة</button>
-                <button onclick="router('finance'); closeSidebarOnMobile();" class="nav-link">💰 المالية</button>
-                <button onclick="router('templates'); closeSidebarOnMobile();" class="nav-link">📝 النماذج</button>
-                <button onclick="router('tasks'); closeSidebarOnMobile();" class="nav-link">✅ المهام</button>
-                <button onclick="router('settings'); closeSidebarOnMobile();" class="nav-link">⚙️ الإعدادات</button>
+                <button onclick="router('dashboard'); closeSidebar();" class="nav-link">📊 لوحة التحكم</button>
+                <button onclick="router('clients'); closeSidebar();" class="nav-link">👥 الموكلين</button>
+                <button onclick="router('cases'); closeSidebar();" class="nav-link">⚖️ القضايا</button>
+                <button onclick="router('calendar'); closeSidebar();" class="nav-link">📅 الأجندة</button>
+                <button onclick="router('finance'); closeSidebar();" class="nav-link">💰 المالية</button>
+                <button onclick="router('templates'); closeSidebar();" class="nav-link">📝 النماذج</button>
+                <button onclick="router('tasks'); closeSidebar();" class="nav-link">✅ المهام</button>
+                <button onclick="router('settings'); closeSidebar();" class="nav-link">⚙️ الإعدادات</button>
             </nav>
 
             <div class="p-4 border-t border-slate-700">
@@ -242,28 +151,10 @@
         </aside>
 
         <main class="flex-1 flex flex-col overflow-hidden">
-            <header class="h-16 bg-white shadow-sm flex items-center justify-between px-4 md:px-8 relative">
-    <div class="flex items-center gap-3">
-        <!-- زر القائمة للهواتف - يكون على اليمين في الوضع العربي -->
-        <button class="menu-toggle relative" onclick="toggleSidebar()" style="display: none; background: #f1f5f9; color: #1e293b; border-radius: 10px; padding: 8px 12px;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-        </button>
-        
-        <!-- عنوان الصفحة -->
-        <h2 id="page-title" class="text-lg md:text-xl font-bold text-slate-700 truncate" style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-            لوحة التحكم
-        </h2>
-    </div>
-    
-    <!-- التاريخ -->
-    <span id="current-date" class="text-xs md:text-sm text-gray-500 bg-gray-50 px-3 py-1 rounded-full">
-        تحميل...
-    </span>
-</header>
+            <header class="h-16 bg-white shadow-sm flex items-center justify-between px-4 md:px-8" style="padding-right: 60px;">
+                <h2 id="page-title" class="text-lg md:text-xl font-bold text-slate-700">لوحة التحكم</h2>
+                <span id="current-date" class="text-xs md:text-sm text-gray-500 bg-gray-50 px-3 py-1 rounded-full"></span>
+            </header>
 
             <section id="main-content" class="flex-1 overflow-y-auto p-4 md:p-8"></section>
         </main>
@@ -299,7 +190,6 @@
     </div>
 
     <script>
-        // دوال تحكم القائمة الجانبية للهواتف
         function toggleSidebar() {
             const sidebar = document.querySelector('.sidebar');
             const overlay = document.querySelector('.overlay');
@@ -307,7 +197,7 @@
             overlay.classList.toggle('active');
         }
         
-        function closeSidebarOnMobile() {
+        function closeSidebar() {
             if (window.innerWidth <= 768) {
                 const sidebar = document.querySelector('.sidebar');
                 const overlay = document.querySelector('.overlay');
@@ -316,12 +206,19 @@
             }
         }
         
-        // إغلاق القائمة عند الضغط على ESC
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeSidebarOnMobile();
-            }
+            if (e.key === 'Escape') closeSidebar();
         });
+        
+        // تحديث التاريخ
+        function updateDateTime() {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' });
+            const dateElem = document.getElementById('current-date');
+            if (dateElem) dateElem.innerHTML = dateStr;
+        }
+        updateDateTime();
+        setInterval(updateDateTime, 60000);
     </script>
     
     <script src="db.js"></script>
