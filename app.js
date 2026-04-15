@@ -960,5 +960,44 @@ async function delCase(id) {
     } 
 }
 
+
+
+
+
+// ========== دوال تحسين العرض على الهواتف ==========
+
+// تحسين عرض الجداول على الهواتف
+function makeTablesResponsive() {
+    const tables = document.querySelectorAll('table');
+    tables.forEach(table => {
+        if (!table.parentElement.classList.contains('overflow-x-auto')) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'overflow-x-auto';
+            table.parentNode.insertBefore(wrapper, table);
+            wrapper.appendChild(table);
+        }
+    });
+}
+
+// تحسين عرض البطاقات
+function optimizeCardsForMobile() {
+    const cards = document.querySelectorAll('.grid > div');
+    if (window.innerWidth <= 768) {
+        cards.forEach(card => {
+            card.style.marginBottom = '16px';
+        });
+    }
+}
+
+// استدعاء الدوال بعد كل تحديث للصفحة
+const originalRouter = router;
+router = async function(page) {
+    await originalRouter(page);
+    setTimeout(() => {
+        makeTablesResponsive();
+        optimizeCardsForMobile();
+    }, 100);
+};
+
 // بدء التطبيق
 init();
